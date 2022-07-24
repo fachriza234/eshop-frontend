@@ -1,34 +1,37 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Button, Card, Container } from "react-bootstrap";
+import React, { useEffect, useState, } from "react";
+import { Card, Container, Button } from "react-bootstrap";
 import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function Profile({isLogedIn, setisLogedIn}) {
+
+function Profile({isLogedIn, setIsLogedIn}) {
+
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
+   
 
-    useEffect(() => {
+    useEffect (() => {
         const token = localStorage.getItem('eshop_jwt');
         axios.get('https://eshop.reskimulud.my.id/user', {
-            headers : {
-                'Authorization' : `Bearer ${token}`,
+            headers: {
+                'Authorization' : `Bearer ${token}`, 
             },
         }).then((res) => {
-            setName(res.data.user.data.name);
-            setEmail(res.data.user.data.email);
+            setName(res.data.data.user.name);
+            setEmail(res.data.data.user.email);
         });
     }, []);
 
-    if (!isLogedIn) {
+    if(!isLogedIn) {
         return (
-            <Navigate to='/auth/login' replace />
-        )
+            <Navigate to="/auth/login" replace />
+        );
     }
 
     const onLogout = (e) => {
         localStorage.clear();
-        setisLogedIn(false);
+        setIsLogedIn(false);
         navigate('/auth/login');
     };
 
@@ -36,8 +39,8 @@ function Profile({isLogedIn, setisLogedIn}) {
         <Container>
             <Card className="m-3 p-3">
                 <Card.Title>Name : {name}</Card.Title>
-                <Card.Subtitle>email : {email}</Card.Subtitle>
-                <Button onClick ={onLogout} variant='danger'>Logout</Button>
+                <Card.Subtitle>Email : {email}</Card.Subtitle>
+                <Button onClick={onLogout} variant="info">Logout</Button>
             </Card>
         </Container>
     );

@@ -4,11 +4,12 @@ import CardItem from "./CardItem";
 import axios from 'axios';
 
 function CardList() {
-    const [products, setProducts]= useState([]);
+    
+    const [products, setProducts] = useState([]);
 
     useEffect(() => {
         axios.get('https://eshop.reskimulud.my.id/products')
-            .then((res) => setProducts(res.data.data.products) )
+        .then((res) => setProducts(res.data.data.products))
     }, []);
 
     return (
@@ -17,7 +18,7 @@ function CardList() {
                 <Col key={product.id}>
                     <CardItem item={product} />
                 </Col>
-            ) )}
+            ))}
         </Row>
     );
 }
